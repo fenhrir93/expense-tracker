@@ -1,0 +1,28 @@
+<form [formGroup]="transactionForm" class="grid justify-content-center">
+  <p-floatLabel class="col-6">
+    <input pInputText formControlName="name" />
+    <label for="name">Name</label>
+  </p-floatLabel>
+
+  <p-floatLabel class="col-6">
+    <p-inputNumber
+      formControlName="amount"
+      mode="currency"
+      locale="en-US"
+      currency="USD"
+    />
+    <label for="amount">Amount</label>
+  </p-floatLabel>
+  <p-floatLabel class="col-6">
+    <p-dropdown formControlName="category"></p-dropdown>
+    <label for="category">Category</label>
+  </p-floatLabel>
+  <p-floatLabel class="col-6">
+    <p-calendar formControlName="transactionDate" />
+    <label for="date">Transaction date</label>
+  </p-floatLabel>
+  <section class="col-12">
+    <p-button type="submit" pButton label="Add Transaction" />
+    <p-button type="reset" label="Reset" />
+  </section>
+</form>

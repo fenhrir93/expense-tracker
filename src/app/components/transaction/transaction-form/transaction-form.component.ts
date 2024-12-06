@@ -1,11 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import dayjs from 'dayjs';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { CategoryType } from '../../../models/category.interface';
+import { CategoryFormComponent } from '../category-form/category-form.component';
 
 @Component({
   selector: 'app-transaction-form',
@@ -21,15 +25,18 @@ import { InputTextModule } from 'primeng/inputtext';
   ],
   templateUrl: './transaction-form.component.html',
   styleUrl: './transaction-form.component.css',
+  providers: [DialogService],
 })
 export class TransactionFormComponent {
   private fB = inject(FormBuilder);
+  private dialogRef = inject(DynamicDialogRef);
+  private dialogService = inject(DialogService);
+  categoryType = CategoryType;
   transactionForm = this.fB.group({
-    name: ['', [Validators.required]],
-    amount: [null, [Validators.required]],
-    transactionType: [],
-    category: [],
-    transactionDate: [],
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    amount: [0, [Validators.required, Validators.min(0)]],
+    category: ['', [Validators.required]],
+    transactionDate: dayjs().format('YYYY-MM-DD'),
   });
 
   categories = [
@@ -62,4 +69,15 @@ export class TransactionFormComponent {
     { name: 'Vacation', type: 'expense' },
     { name: 'Other', type: 'expense' },
   ];
+
+  addTransaction() {
+    this.dialogRef.close(this.transactionForm.getRawValue());
+  }
+
+  addCategory() {
+    console.log('category');
+    this.dialogService.open(CategoryFormComponent, {
+      header: 'Add Category',
+    });
+  }
 }

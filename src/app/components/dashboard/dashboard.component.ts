@@ -1,8 +1,12 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
+import { take } from 'rxjs';
+import { TransactionService } from '../../api/transaction.service';
+import { CategoryType } from '../../models/category.interface';
+import { Transaction } from '../../models/transaction.interface';
 import { TransactionFormComponent } from '../transaction/transaction-form/transaction-form.component';
 
 @Component({
@@ -17,87 +21,26 @@ import { TransactionFormComponent } from '../transaction/transaction-form/transa
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
-  providers: [DialogService],
+  providers: [DialogService, TransactionService],
 })
-export class DashboardComponent {
-  transactions = [
-    {
-      name: 'Grocery Shopping',
-      amount: 45.75,
-      type: 'expense',
-      category: 'Groceries',
-      date: new Date('2024-12-05').toISOString(), // Змінити на поточну дату, якщо потрібно
-    },
-    {
-      name: 'Salary for November',
-      amount: 2000.0,
-      type: 'income',
-      category: 'Salary',
-      date: new Date('2024-12-01').toISOString(),
-    },
-    {
-      name: 'Movie Night',
-      amount: 12.5,
-      type: 'expense',
-      category: 'Entertainment',
-      date: new Date('2024-12-03').toISOString(),
-    },
-    {
-      name: 'Freelance Project',
-      amount: 500.0,
-      type: 'income',
-      category: 'Freelance Work',
-      date: new Date('2024-12-04').toISOString(),
-    },
-    {
-      name: 'Electricity Bill',
-      amount: 80.25,
-      type: 'expense',
-      category: 'Utilities',
-      date: new Date('2024-12-05').toISOString(),
-    },
-    {
-      name: 'Interest from Savings',
-      amount: 15.6,
-      type: 'income',
-      category: 'Interest Income',
-      date: new Date('2024-12-02').toISOString(),
-    },
-    {
-      name: 'Gift for Friend',
-      amount: 50.0,
-      type: 'expense',
-      category: 'Gifts',
-      date: new Date('2024-12-05').toISOString(),
-    },
-    {
-      name: 'Side Income from Blog',
-      amount: 120.75,
-      type: 'income',
-      category: 'Side Income',
-      date: new Date('2024-12-01').toISOString(),
-    },
-    {
-      name: 'Dining Out',
-      amount: 35.2,
-      type: 'expense',
-      category: 'Dining Out',
-      date: new Date('2024-12-03').toISOString(),
-    },
-    {
-      name: 'Loan Repayment',
-      amount: 250.0,
-      type: 'income',
-      category: 'Loan Repayment',
-      date: new Date('2024-12-05').toISOString(),
-    },
-  ];
-
+export class DashboardComponent implements OnInit {
   private dialogService = inject(DialogService);
+  private transactionService = inject(TransactionService);
+  categoryType = CategoryType;
+  transactions = this.transactionService.transactions;
+
+  ngOnInit(): void {
+    this.transactions.set(this.transactionService.getTransactions());
+  }
   addTransition() {
-    this.dialogService.open(TransactionFormComponent, {
-      header: 'Add New Transaction',
-      appendTo: 'body',
-    });
+    this.dialogService
+      .open(TransactionFormComponent, {
+        header: 'Add New Transaction',
+        appendTo: 'body',
+      })
+      .onClose.pipe(take(1))
+      .subscribe((transaction: Transaction) => {
+        this.transactionService.addTransaction(transaction);
+      });
   }
 }

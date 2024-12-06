@@ -1,0 +1,27 @@
+<form [formGroup]="categoryForm" class="category-form p-fluid">
+  <p-floatLabel>
+    <input pInputText formControlName="name" />
+    <label for="name">Name</label>
+  </p-floatLabel>
+  <p-floatLabel>
+    <p-dropdown [options]="categoryType()" appendTo="body" />
+  </p-floatLabel>
+  <section class="flex gap-4">
+    <p-button
+      type="submit"
+      icon="pi pi-check"
+      severity="success"
+      [disabled]="categoryForm.invalid"
+      [rounded]="true"
+      [outlined]="true"
+      (onClick)="addCategory()"
+    />
+    <p-button
+      type="reset"
+      icon="pi pi-times"
+      severity="danger"
+      [rounded]="true"
+      [outlined]="true"
+    />
+  </section>
+</form>

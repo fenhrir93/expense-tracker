@@ -1,6 +1,6 @@
 <div class="card">
   <p-table
-    [value]="transactions"
+    [value]="transactions()"
     [tableStyle]="{ 'min-width': '50rem' }"
     styleClass="p-datatable-gridlines p-datatable-striped"
     responsiveLayout="stack"
@@ -27,8 +27,16 @@
       <tr>
         <td>{{ product.name }}</td>
         <td>{{ product.amount | currency }}</td>
-        <td>{{ product.type }}</td>
-        <td>{{ product.category }}</td>
+        <td
+          [style]="
+            product.category.type === categoryType.Expense
+              ? 'color: var(--red-500)'
+              : 'color: var(--green-500)'
+          "
+        >
+          {{ product.category.type }}
+        </td>
+        <td>{{ product.category.name }}</td>
         <td>{{ product.date | date }}</td>
       </tr>
     </ng-template>

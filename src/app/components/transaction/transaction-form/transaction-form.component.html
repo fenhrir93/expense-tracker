@@ -7,6 +7,7 @@
   <p-floatLabel>
     <p-inputNumber
       formControlName="amount"
+      [min]="0"
       mode="currency"
       locale="en-US"
       currency="USD"
@@ -23,11 +24,36 @@
       [style]="{ width: '100%' }"
       [options]="categories"
       [showClear]="true"
-    />
+    >
+      <ng-template pTemplate="footer">
+        <p-button
+          icon="pi pi-plus"
+          severity="success"
+          (onClick)="addCategory()"
+        />
+      </ng-template>
+      <ng-template let-category pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div
+            [style]="
+              category.type === categoryType.Expense
+                ? 'color: var(--red-500)'
+                : 'color: var(--green-500)'
+            "
+          >
+            {{ category.name }}
+          </div>
+        </div>
+      </ng-template>
+    </p-dropdown>
     <label for="category">Category</label>
   </p-floatLabel>
   <p-floatLabel>
-    <p-calendar formControlName="transactionDate" appendTo="body" />
+    <p-calendar
+      formControlName="transactionDate"
+      appendTo="body"
+      dateFormat="yy-mm-dd"
+    />
     <label for="date">Transaction date</label>
   </p-floatLabel>
   <section class="flex gap-4">
@@ -35,8 +61,10 @@
       type="submit"
       icon="pi pi-check"
       severity="success"
+      [disabled]="transactionForm.invalid"
       [rounded]="true"
       [outlined]="true"
+      (onClick)="addTransaction()"
     />
     <p-button
       type="reset"

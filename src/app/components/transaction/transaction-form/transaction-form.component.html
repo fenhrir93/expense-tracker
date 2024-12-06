@@ -22,16 +22,10 @@
       optionLabel="name"
       appendTo="body"
       [style]="{ width: '100%' }"
-      [options]="categories"
+      [options]="categories()"
       [showClear]="true"
+      dataKey="name"
     >
-      <ng-template pTemplate="footer">
-        <p-button
-          icon="pi pi-plus"
-          severity="success"
-          (onClick)="addCategory()"
-        />
-      </ng-template>
       <ng-template let-category pTemplate="item">
         <div class="flex align-items-center gap-2">
           <div
@@ -44,6 +38,14 @@
             {{ category.name }}
           </div>
         </div>
+      </ng-template>
+      <ng-template pTemplate="empty">
+        <p>Category does not exist</p>
+        <p-button
+          icon="pi pi-plus"
+          severity="success"
+          (onClick)="addCategory()"
+        />
       </ng-template>
     </p-dropdown>
     <label for="category">Category</label>

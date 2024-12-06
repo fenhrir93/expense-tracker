@@ -27,7 +27,9 @@ import { CategoryType } from '../../../models/category.interface';
 })
 export class CategoryFormComponent {
   private dialogRef = inject(DynamicDialogRef);
+
   categoryType = signal(Object.values(CategoryType));
+
   categoryForm = new FormGroup({
     name: new FormControl<string>('', [
       Validators.required,

@@ -1,1 +1,36 @@
-<p-button (onClick)="addTransition()">Add Transaction</p-button>
+<div class="card">
+  <p-table
+    [value]="transactions"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    responsiveLayout="stack"
+    [breakpoint]="'960px'"
+  >
+    <ng-template pTemplate="caption">
+      <p-button
+        icon="pi pi-plus"
+        [rounded]="true"
+        severity="success"
+        (onClick)="addTransition()"
+      />
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Date</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.amount | currency }}</td>
+        <td>{{ product.type }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.date | date }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

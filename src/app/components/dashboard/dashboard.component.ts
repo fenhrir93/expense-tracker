@@ -59,7 +59,7 @@ export class DashboardComponent {
     );
   });
 
-  addTransition() {
+  addTransaction() {
     this.dialogService
       .open(TransactionFormComponent, {
         header: 'Add New Transaction',

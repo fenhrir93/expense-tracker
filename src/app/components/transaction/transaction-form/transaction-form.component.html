@@ -1,10 +1,10 @@
-<form [formGroup]="transactionForm" class="grid justify-content-center">
-  <p-floatLabel class="col-6">
+<form [formGroup]="transactionForm" class="transaction-form p-fluid">
+  <p-floatLabel>
     <input pInputText formControlName="name" />
     <label for="name">Name</label>
   </p-floatLabel>
 
-  <p-floatLabel class="col-6">
+  <p-floatLabel>
     <p-inputNumber
       formControlName="amount"
       mode="currency"
@@ -13,16 +13,37 @@
     />
     <label for="amount">Amount</label>
   </p-floatLabel>
-  <p-floatLabel class="col-6">
-    <p-dropdown formControlName="category"></p-dropdown>
+  <p-floatLabel>
+    <p-dropdown
+      formControlName="category"
+      [filter]="true"
+      filterBy="name"
+      optionLabel="name"
+      appendTo="body"
+      [style]="{ width: '100%' }"
+      [options]="categories"
+      [showClear]="true"
+    />
     <label for="category">Category</label>
   </p-floatLabel>
-  <p-floatLabel class="col-6">
-    <p-calendar formControlName="transactionDate" />
+  <p-floatLabel>
+    <p-calendar formControlName="transactionDate" appendTo="body" />
     <label for="date">Transaction date</label>
   </p-floatLabel>
-  <section class="col-12">
-    <p-button type="submit" pButton label="Add Transaction" />
-    <p-button type="reset" label="Reset" />
+  <section class="flex gap-4">
+    <p-button
+      type="submit"
+      icon="pi pi-plus"
+      severity="success"
+      [rounded]="true"
+      [outlined]="true"
+    />
+    <p-button
+      type="reset"
+      icon="pi pi-times"
+      severity="danger"
+      [rounded]="true"
+      [outlined]="true"
+    />
   </section>
 </form>

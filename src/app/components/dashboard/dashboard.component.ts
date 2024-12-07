@@ -63,7 +63,7 @@ export class DashboardComponent implements OnInit {
     this.transactionService.setTransaction();
   }
 
-  addTransition() {
+  addTransaction() {
     this.dialogService
       .open(TransactionFormComponent, {
         header: 'Add New Transaction',

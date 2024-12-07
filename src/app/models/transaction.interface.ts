@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { Category } from './category.interface';
 
 export interface Transaction {
@@ -6,5 +5,5 @@ export interface Transaction {
   name: string;
   amount: number;
   category: Category;
-  date: dayjs.Dayjs;
+  date: string;
 }

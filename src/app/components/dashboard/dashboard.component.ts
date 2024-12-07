@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   AutoCompleteCompleteEvent,
@@ -38,7 +38,7 @@ import { TransactionFormComponent } from '../transaction/transaction-form/transa
   styleUrl: './dashboard.component.css',
   providers: [DialogService, TransactionService, CategoryService],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private dialogService = inject(DialogService);
   private transactionService = inject(TransactionService);
   private categoriesService = inject(CategoryService);
@@ -59,7 +59,11 @@ export class DashboardComponent {
     );
   });
 
-  addTransaction() {
+  ngOnInit(): void {
+    this.transactionService.setTransaction();
+  }
+
+  addTransition() {
     this.dialogService
       .open(TransactionFormComponent, {
         header: 'Add New Transaction',

@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
@@ -29,7 +29,7 @@ import { CategoryFormComponent } from '../category-form/category-form.component'
   styleUrl: './transaction-form.component.css',
   providers: [DialogService, CategoryService],
 })
-export class TransactionFormComponent {
+export class TransactionFormComponent implements OnInit {
   private fB = inject(FormBuilder);
   private dialogRef = inject(DynamicDialogRef);
   private dialogService = inject(DialogService);
@@ -39,10 +39,14 @@ export class TransactionFormComponent {
     name: ['', [Validators.required, Validators.minLength(3)]],
     amount: [0, [Validators.required, Validators.min(0)]],
     category: this.fB.control<Category | null>(null, [Validators.required]),
-    transactionDate: dayjs().format('YYYY-MM-DD'),
+    date: dayjs().format('YYYY-MM-DD'),
   });
 
   categories = this.categoryService.categories;
+
+  ngOnInit(): void {
+    this.categoryService.setCategory();
+  }
 
   addTransaction() {
     this.dialogRef.close(this.transactionForm.getRawValue());

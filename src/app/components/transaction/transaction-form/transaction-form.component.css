@@ -3,3 +3,8 @@
   display: grid;
   grid-gap: 26px;
 }
+
+.action {
+  display: flex;
+  gap: 24px;
+}

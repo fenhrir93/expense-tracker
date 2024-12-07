@@ -51,14 +51,10 @@
     <label for="category">Category</label>
   </p-floatLabel>
   <p-floatLabel>
-    <p-calendar
-      formControlName="transactionDate"
-      appendTo="body"
-      dateFormat="yy-mm-dd"
-    />
+    <p-calendar formControlName="date" appendTo="body" dateFormat="yy-mm-dd" />
     <label for="date">Transaction date</label>
   </p-floatLabel>
-  <section class="flex gap-4">
+  <section class="action">
     <p-button
       type="submit"
       icon="pi pi-check"
